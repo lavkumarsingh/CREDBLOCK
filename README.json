@@ -1,0 +1,7 @@
+1. install solc@0.4.17
+2. install truffle-hdwallet-provider@0.0.3
+3. install web3@1.0.0-beta.26
+
+4. Run node compile.js in ethereum dir.
+5. Run node deploy.js in ethereum dir.
+6. Add address to the instance.
