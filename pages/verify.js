@@ -11,6 +11,8 @@ class Verify extends Component {
     aadhar: '',
     course: '',
     hashId: '',
+    hash: '',
+    err: 'false',
     block: 'block0'
   }
 
@@ -20,26 +22,28 @@ class Verify extends Component {
     try {
       const getbykey = await instance.methods.getValue(this.state.hash)
         .call().then(result => {
+
           console.log(result[0], result[1], result[2], result[3]);
           this.setState({address: result[0]});
           this.setState({aadhar: result[1]});
           this.setState({course: result[2]});
           this.setState({hashId: result[3]});
+
         });
-        console.log(getbykey);
+
         this.setState({ block: 'block1' });
+
     } catch(err) {
       console.log(err);
     }
+
   };
 
   render() {
     web3.eth.getAccounts().then( account => {
       if(account[0] !== ''){
       this.setState({ account: account[0] });
-    } else {
-      this.setState({ account: 'Login to your Metamask' })
-    }
+    } 
     });
     return(
       <div className="container">
@@ -75,6 +79,14 @@ class Verify extends Component {
           <button className="btn">Verify</button>
           <h2>{this.state.fetch}</h2>
         </form>
+        <div className={this.state.err}>
+          <div className="error_block">
+            <h4 className="error">Something went wrong!</h4>
+            <h6 className="err_detail">This hash is not linked to any certificate!</h6>
+          </div>
+        </div>
+
+
 
           <div className={this.state.block}>
             <div className="certificate">
@@ -94,6 +106,36 @@ class Verify extends Component {
         </div>
 
         <style jsx>{`
+            .false {
+              display: none;
+            }
+            .true {
+              display: block;
+            }
+
+            .error {
+              font-family: Montserrat;
+              font-size: 18px;
+              margin-left: 32%;
+              font-weight: 600;
+              margin-top: 100px;
+              color: #fff;
+              padding-top: 20px;
+            }
+            .err_detail {
+              font-family: Montserrat;
+              font-size: 16px;
+              margin-left: 27%;
+              font-weight: 600;
+              color: #fff;
+            }
+            .error_block {
+              background-color: #e84118;
+              width: 600px;
+              height: 120px;
+              margin: 0 auto;
+              border-radius: 12px;
+            }
             form {
               display: flex;
               margin-top: 15%;
